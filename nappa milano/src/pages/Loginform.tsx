@@ -47,14 +47,14 @@ export default function LoginForm() {
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <InputText
-          label="Email"
+          label="NIM"
           nama="email"
           register={register}
           error={errors.email?.message}
         />
 
         <InputPassword
-          label="Password"
+          label="NIM"
           nama="password"
           register={register}
           error={errors.password?.message}
