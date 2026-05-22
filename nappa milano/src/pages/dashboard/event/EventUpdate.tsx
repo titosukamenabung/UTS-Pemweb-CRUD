@@ -53,20 +53,20 @@ export default function EventUpdate() {
   });
 
   const getCategories = async () => {
-    const response = await fetch("http://localhost:3000/category");
+    const response = await fetch("https://backend-mu-khaki-76.vercel.app/category");
     const data = await response.json();
     setCategories(data);
   };
 
   const getPembicara = async () => {
-    const response = await fetch("http://localhost:3000/pembicara");
+    const response = await fetch("https://backend-mu-khaki-76.vercel.app/pembicara");
     const data = await response.json();
     setPembicara(data);
   };
 
   const getDetailEvent = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/event/${id}`);
+      const response = await fetch(`https://backend-mu-khaki-76.vercel.app/event/${id}`);
       const data = await response.json();
 
       setValue("title", data.title);
@@ -82,7 +82,7 @@ export default function EventUpdate() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await fetch(`http://localhost:3000/event/${id}`, {
+      const response = await fetch(`https://backend-mu-khaki-76.vercel.app/event/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

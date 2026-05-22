@@ -27,7 +27,7 @@ export default function CategoryCreate() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await fetch("http://localhost:3000/category", {
+      const response = await fetch("https://backend-mu-khaki-76.vercel.app/category", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

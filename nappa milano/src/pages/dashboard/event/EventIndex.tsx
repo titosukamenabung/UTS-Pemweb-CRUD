@@ -28,7 +28,7 @@ export default function EventIndex() {
 
   const getEvents = async () => {
     try {
-      const response = await fetch("http://localhost:3000/event");
+      const response = await fetch("https://backend-mu-khaki-76.vercel.app/event");
       const data = await response.json();
       setEvents(data);
     } catch (error) {
@@ -41,7 +41,7 @@ export default function EventIndex() {
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`http://localhost:3000/event/${id}`, {
+      const response = await fetch(`https://backend-mu-khaki-76.vercel.app/event/${id}`, {
         method: "DELETE",
       });
 
