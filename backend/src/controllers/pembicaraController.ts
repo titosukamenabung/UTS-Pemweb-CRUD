@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { prisma } from "../lib/db.js";
 
-// 1. Menampilkan semua pembicara
+// Menampilkan semua pembicara
 export const getPembicara = async (req: Request, res: Response) => {
   try {
     const pembicara = await prisma.pembicara.findMany({
@@ -10,16 +10,16 @@ export const getPembicara = async (req: Request, res: Response) => {
       },
     });
 
-    res.json(pembicara);
+    return res.json(pembicara);
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Gagal mengambil data pembicara",
       error,
     });
   }
 };
 
-// 2. Menyimpan pembicara
+// Menyimpan pembicara
 export const createPembicara = async (req: Request, res: Response) => {
   try {
     const { name, role, image } = req.body;
@@ -38,19 +38,19 @@ export const createPembicara = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Pembicara berhasil ditambahkan",
       pembicara: newPembicara,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Gagal menambahkan pembicara",
       error,
     });
   }
 };
 
-// 3. Menampilkan pembicara berdasarkan id
+// Menampilkan detail pembicara berdasarkan id
 export const showPembicara = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -67,20 +67,20 @@ export const showPembicara = async (req: Request, res: Response) => {
       });
     }
 
-    res.json(pembicara);
+    return res.json(pembicara);
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Gagal mengambil detail pembicara",
       error,
     });
   }
 };
 
-// 4. Mengupdate pembicara
+// Mengupdate pembicara
 export const updatePembicara = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, bidang, bio } = req.body;
+    const { name, role, image } = req.body;
 
     const updatedPembicara = await prisma.pembicara.update({
       where: {
@@ -88,24 +88,24 @@ export const updatePembicara = async (req: Request, res: Response) => {
       },
       data: {
         name,
-        bidang,
-        bio,
+        role,
+        image,
       },
     });
 
-    res.json({
+    return res.json({
       message: "Pembicara berhasil diupdate",
       pembicara: updatedPembicara,
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Gagal mengupdate pembicara",
       error,
     });
   }
 };
 
-// 5. Menghapus pembicara
+// Menghapus pembicara
 export const deletePembicara = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -116,11 +116,11 @@ export const deletePembicara = async (req: Request, res: Response) => {
       },
     });
 
-    res.json({
+    return res.json({
       message: "Pembicara berhasil dihapus",
     });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       message: "Gagal menghapus pembicara",
       error,
     });

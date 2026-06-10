@@ -52,46 +52,46 @@ export default function EventCreate() {
   });
 
   const getCategories = async () => {
-    const response = await fetch("https://backend-mu-khaki-76.vercel.app/category");
+    const response = await fetch("http://localhost:3000/categories");
     const data = await response.json();
     setCategories(data);
   };
 
   const getPembicara = async () => {
-    const response = await fetch("https://backend-mu-khaki-76.vercel.app/pembicara");
+    const response = await fetch("http://localhost:3000/pembicara");
     const data = await response.json();
     setPembicara(data);
   };
 
   const onSubmit = async (data: FormData) => {
-    try {
-      const response = await fetch("https://backend-mu-khaki-76.vercel.app/event", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title: data.title,
-          description: data.description,
-          location: data.location,
-          dateEvent: data.dateEvent,
-          categoryId: Number(data.categoryId),
-          pembicaraId: Number(data.pembicaraId),
-        }),
-      });
+  try {
+    const response = await fetch("http://localhost:3000/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: data.title,
+        description: data.description,
+        location: data.location,
+        dateEvent: data.dateEvent,
+        categoryId: Number(data.categoryId),
+        pembicaraId: Number(data.pembicaraId),
+      }),
+    });
 
-      if (!response.ok) {
-        throw new Error("Gagal menambahkan event");
-      }
-
-      alert("Event berhasil ditambahkan");
-      reset();
-      navigate("/dashboard/event");
-    } catch (error) {
-      console.error(error);
-      alert("Terjadi kesalahan saat menambahkan event");
+    if (!response.ok) {
+      throw new Error("Gagal menambahkan event");
     }
-  };
+
+    alert("Event berhasil ditambahkan");
+    reset();
+    navigate("/dashboard/event");
+  } catch (error) {
+    console.error(error);
+    alert("Terjadi kesalahan saat menambahkan event");
+  }
+};
 
   useEffect(() => {
     getCategories();

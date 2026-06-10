@@ -1,24 +1,24 @@
-import { useEffect } from "react";
 import { z } from "zod";
-import { InputText } from "../../../components/ui/InputText";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { InputText } from "../../../components/ui/InputText";
 import Button from "../../../components/ui/Button";
 
 type FormData = {
   name: string;
-  role: string;
-  image: string;
+  email: string;
+  password: string;
 };
 
 const schema = z.object({
-  name: z.string().min(1, "Nama pembicara harus diisi"),
-  role: z.string().min(1, "role harus diisi"),
-  image: z.string().min(1, "image harus diisi"),
+  name: z.string().min(1, "Nama harus diisi"),
+  email: z.string().min(1, "Email harus diisi").email("Format email tidak valid"),
+  password: z.string().min(1, "Password harus diisi"),
 });
 
-export default function PembicaraUpdate() {
+export default function UpdateUser() {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -31,14 +31,14 @@ export default function PembicaraUpdate() {
     resolver: zodResolver(schema),
   });
 
-  const getDetailPembicara = async () => {
+  const getDetailUser = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/pembicara/${id}`);
+      const response = await fetch(`http://localhost:3000/auth/${id}`);
       const data = await response.json();
 
-      setValue("name", data.name);
-      setValue("role", data.role);
-      setValue("image", data.image);
+      setValue("name", data.data.name);
+      setValue("email", data.data.email);
+      setValue("password", "");
     } catch (error) {
       console.error(error);
     }
@@ -46,7 +46,7 @@ export default function PembicaraUpdate() {
 
   const onSubmit = async (data: FormData) => {
     try {
-      const response = await fetch(`http://localhost:3000/pembicara/${id}`, {
+      const response = await fetch(`http://localhost:3000/auth/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -55,52 +55,52 @@ export default function PembicaraUpdate() {
       });
 
       if (!response.ok) {
-        throw new Error("Gagal mengupdate pembicara");
+        throw new Error("Gagal mengupdate user");
       }
 
-      alert("Pembicara berhasil diupdate");
-      navigate("/dashboard/pembicara");
+      alert("User berhasil diupdate");
+      navigate("/dashboard/users");
     } catch (error) {
       console.error(error);
-      alert("Terjadi kesalahan saat mengupdate pembicara");
+      alert("Terjadi kesalahan saat mengupdate user");
     }
   };
 
   useEffect(() => {
-    getDetailPembicara();
+    getDetailUser();
   }, []);
 
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <div className="bg-[#f8f5f0] rounded-2xl shadow-md p-8 border border-[#e0d6c8]">
         <h2 className="text-2xl font-bold text-[#3e2f1c] mb-6 border-b border-[#d6c7b2] pb-4">
-          Edit Pembicara
+          Edit User
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
           <InputText
-            label="Nama Pembicara"
+            label="Nama"
             nama="name"
             register={register}
             error={errors.name?.message}
           />
 
           <InputText
-            label="role"
-            nama="role"
+            label="Email"
+            nama="email"
             register={register}
-            error={errors.role?.message}
+            error={errors.email?.message}
           />
 
           <InputText
-            label="image"
-            nama="image"
+            label="Password"
+            nama="password"
             register={register}
-            error={errors.image?.message}
+            error={errors.password?.message}
           />
 
           <div className="flex justify-start mt-4">
-            <Button type="submit" label="Update Pembicara" />
+            <Button type="submit" label="Update User" />
           </div>
         </form>
       </div>

@@ -13,7 +13,7 @@ export default function PembicaraIndex() {
 
   const getPembicara = async () => {
     try {
-      const response = await fetch("https://backend-mu-khaki-76.vercel.app/pembicara");
+      const response = await fetch("http://localhost:3000/pembicara");
       const data = await response.json();
       setPembicara(data);
     } catch (error) {
@@ -23,11 +23,10 @@ export default function PembicaraIndex() {
 
   const handleDelete = async (id: number) => {
     const confirmDelete = confirm("Yakin ingin menghapus pembicara ini?");
-
     if (!confirmDelete) return;
 
     try {
-      const response = await fetch(`https://backend-mu-khaki-76.vercel.app/pembicara/${id}`, {
+      const response = await fetch(`http://localhost:3000/pembicara/${id}`, {
         method: "DELETE",
       });
 
@@ -67,11 +66,13 @@ export default function PembicaraIndex() {
             className="w-72 px-6 py-4 bg-[#f8f5f0] border border-[#e0d6c8] rounded-2xl shadow-sm text-[#3e2f1c] hover:shadow-md transition"
           >
             <p className="font-semibold">{item.name}</p>
-            <p className="text-sm text-[#7a6a58]">{item.role}</p>
-            <div>
-              <img src= {item.image} alt="" className="rounded-xl w-full"/> 
-            </div>
-            
+            <p className="text-sm text-[#7a6a58] mb-3">{item.role}</p>
+
+            <img
+              src={item.image || "https://via.placeholder.com/300x200?text=No+Image"}
+              alt={item.name}
+              className="w-full h-48 object-cover rounded-xl border border-[#e0d6c8]"
+            />
 
             <div className="flex gap-2 mt-4">
               <Link

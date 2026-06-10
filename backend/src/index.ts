@@ -1,26 +1,28 @@
-import express from "express";
-import cors from "cors";
 
+import Express from "express";
+import cors from "cors";
 import eventRoute from "./routes/eventRoute.js";
 import categoryRoute from "./routes/categoryRoute.js";
-import productRoute from "./routes/productRoute.js";
 import pembicaraRoute from "./routes/pembicaraRoute.js";
+import authRoute from "./routes/authRoute.js";
 
-const app = express();
+const app = Express();
 const port = 3000;
+app.use(cors())
 
-app.use(cors());
-app.use(express.json());
+
+app.use(Express.json());
 
 app.get("/", (req, res) => {
-  res.send("Ini adalah api untuk Nappa Milano");
+  res.send("Ini Adalah Api Nappa Milano");
 });
-
-app.use("/event", eventRoute);
-app.use("/category", categoryRoute);
-app.use("/product", productRoute);
+app.use("/events", eventRoute);
+app.use("/categories", categoryRoute);
 app.use("/pembicara", pembicaraRoute);
+app.use("/auth", authRoute);  
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+
